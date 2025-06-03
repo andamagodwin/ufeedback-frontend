@@ -7,7 +7,7 @@ const Feedback = () => {
 
   const fetchFeedbacks = async () => {
     try {
-      const res = await fetch('http://localhost:3000/feedback');
+      const res = await fetch('https://ufeedback-backend.onrender.com/feedback');
       if (!res.ok) throw new Error('Failed to fetch feedbacks');
       const data = await res.json();
       setFeedbacks(data);

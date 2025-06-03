@@ -13,7 +13,7 @@ const Feedbacks = () => {
     if (!rating) return alert("Please select a rating");
 
     try {
-      const res = await fetch('http://localhost:3000/feedback', {
+      const res = await fetch('https://ufeedback-backend.onrender.com/feedback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

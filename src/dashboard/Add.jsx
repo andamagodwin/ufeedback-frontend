@@ -13,7 +13,7 @@ const Add = () => {
 
   const fetchPatients = async () => {
     try {
-      const res = await fetch('http://localhost:3000/patients');
+      const res = await fetch('https://ufeedback-backend.onrender.com/patients');
       const data = await res.json();
       setPatients(data);
     } catch (err) {
@@ -32,7 +32,7 @@ const Add = () => {
 
   const handleAddPatient = async () => {
     try {
-      const res = await fetch('http://localhost:3000/patients', {
+      const res = await fetch('https://ufeedback-backend.onrender.com/patients', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
