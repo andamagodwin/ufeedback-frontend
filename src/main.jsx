@@ -4,7 +4,7 @@ import './index.css'
 import App from './App.jsx'
 
 import Home from './dashboard/Home.jsx'
-import Login from './auth/login.jsx'
+import Login from './auth/Login.jsx'
 import Feedback from './dashboard/Feedback.jsx'
 import Feedbacks from './Feedbacks.jsx'
 import Add from './dashboard/Add.jsx'
