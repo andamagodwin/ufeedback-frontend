@@ -62,9 +62,9 @@ const Feedbacks = () => {
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center px-2 py-4 font-poppins">
-      <div className="bg-white p-6 rounded-3xl w-full max-w-3xl space-y-6">
+      <div className="bg-white p-4 rounded-3xl w-full max-w-3xl space-y-6">
         <div>
-          <img src="/logo.jpg" alt="Feedback" className="w-32 mx-auto mb-4" />
+          <img src="/logo.jpg" alt="Feedback" className="w-40 mx-auto mb-4" />
         </div>
 
         {categories.map((cat) => (
