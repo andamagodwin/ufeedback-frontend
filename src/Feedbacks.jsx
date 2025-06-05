@@ -61,7 +61,7 @@ const Feedbacks = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4 py-8">
+    <div className="min-h-screen bg-white flex items-center justify-center px-2 py-4">
       <div className="bg-white p-8 rounded-3xl w-full max-w-3xl space-y-6">
         <div>
           <img src="/logo.jpg" alt="Feedback" className="w-32 mx-auto mb-4" />
