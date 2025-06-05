@@ -29,8 +29,10 @@ const Feedbacks = () => {
     if (Object.keys(ratings).length !== categories.length)
       return alert('Please rate all categories.');
 
+    console.log({id,ratings,comment})
+
     try {
-      const res = await fetch('https://ufeedback-backend.onrender.com/api/feedback', {
+      const res = await fetch('http://localhost:3000/feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -49,9 +51,9 @@ const Feedbacks = () => {
 
   if (submitted) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-green-50 px-4 text-center">
-        <div className="bg-white p-6 rounded-xl shadow-md max-w-md w-full">
-          <h2 className="text-3xl font-bold text-green-600 mb-3">🎉 Thank You!</h2>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-green px-4 text-center">
+        <div className="bg-white p-6 rounded-xl max-w-md w-full">
+          <h2 className="text-3xl font-bold text-[#20a391] mb-3">🎉 Thank You!</h2>
           <p className="text-gray-700 text-lg">We appreciate your feedback and support.</p>
         </div>
       </div>
@@ -59,9 +61,11 @@ const Feedbacks = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center px-4 py-8">
-      <div className="bg-white p-8 rounded-3xl shadow-xl w-full max-w-3xl space-y-6">
-        <h1 className="text-2xl sm:text-3xl font-bold text-center text-purple-700">💬 Value Family Hospital Feedback Form</h1>
+    <div className="min-h-screen bg-white flex items-center justify-center px-4 py-8">
+      <div className="bg-white p-8 rounded-3xl w-full max-w-3xl space-y-6">
+        <div>
+          <img src="/logo.jpg" alt="Feedback" className="w-32 mx-auto mb-4" />
+        </div>
 
         {categories.map((cat) => (
           <div key={cat} className="bg-gray-50 p-4 rounded-xl shadow-sm">
@@ -72,7 +76,7 @@ const Feedbacks = () => {
                   key={level}
                   className={`flex-1 py-2 mx-1 rounded-xl transition-all duration-300 border-2 ${
                     ratings[cat] === level
-                      ? 'bg-purple-100 border-purple-600 scale-105'
+                      ? 'bg-[#20a391]/10 border-[#20a391] scale-105'
                       : 'bg-white border-gray-300'
                   }`}
                   onClick={() => handleChange(cat, level)}
@@ -88,7 +92,7 @@ const Feedbacks = () => {
         <div>
           <label className="block font-semibold mb-1 text-gray-800">💡 Additional Comments</label>
           <textarea
-            className="w-full p-3 border border-gray-300 rounded-xl resize-none focus:ring-2 focus:ring-purple-300"
+            className="w-full p-3 border border-gray-300 rounded-xl resize-none focus:ring-2 focus:ring-[#233f92]"
             rows="3"
             placeholder="Let us know more (optional)..."
             value={comment}
@@ -96,11 +100,9 @@ const Feedbacks = () => {
           />
         </div>
 
-        
-
         <button
           onClick={handleSubmit}
-          className="w-full mt-6 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl transition-transform hover:scale-105"
+          className="w-full mt-6 bg-[#233f92] hover:bg-[#1d3278] text-white font-semibold py-3 rounded-xl transition-transform hover:scale-105"
         >
           🚀 Submit Feedback
         </button>
