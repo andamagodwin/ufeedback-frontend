@@ -14,10 +14,14 @@ const Login = () => {
   const handleLogin = async () => {
     setLoading(true);
     setError('');
+    
 
     try {
 
-        
+      if (password == "" || email == "" ){
+        setError("All fields are required")
+      }
+      
       const res = await fetch('https://ufeedback-backend.onrender.com/login', {
         method: 'POST',
         headers: {
