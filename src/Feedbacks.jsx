@@ -26,7 +26,6 @@ const Feedbacks = () => {
   };
 
   const handleSubmit = async () => {
-    if (!name || !phone) return alert('Please enter your name and phone.');
     if (Object.keys(ratings).length !== categories.length)
       return alert('Please rate all categories.');
 
