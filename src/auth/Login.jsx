@@ -48,14 +48,14 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container max-w-md mx-auto mt-20 p-6 bg-white shadow-md rounded-md">
+    <div className="login-container font-poppins max-w-md mx-auto mt-20 p-6 bg-white shadow-md rounded-md">
       <h2 className="text-2xl font-semibold mb-6 text-center">Login</h2>
 
       {error && <div className="text-red-600 mb-4 text-sm">{error}</div>}
 
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-1">Email</label>
+          <label className="block text-sm font-medium mb-1 font-poppins">Email</label>
           <input
             type="email"
             className="w-full border px-3 py-2 rounded"

@@ -1,3 +1,7 @@
+import "@fontsource/poppins"; // Defaults to weight 400
+import "@fontsource/poppins/600.css"; // For weight 600
+import "@fontsource/poppins/700.css"; // Optional
+
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
