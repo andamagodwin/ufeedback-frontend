@@ -101,7 +101,9 @@ const Feedback = () => {
       ) : error ? (
         <div className="text-center text-red-500">{error}</div>
       ) : filtered.length === 0 ? (
-        <div className="text-center text-gray-500">No feedbacks found.</div>
+        <div className="text-center text-gray-500">
+          No feedbacks found
+        </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((fb) => (

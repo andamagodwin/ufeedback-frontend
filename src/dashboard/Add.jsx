@@ -72,6 +72,10 @@ const Add = () => {
     <div className="p-6 bg-gray-50 min-h-screen">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-[#233f92]">Today's Patients</h1>
+        <div className="flex items-center gap-2 text-gray-600">
+          <FaCalendarAlt className="text-xl" />
+          <span className="text-sm">{new Date().toLocaleDateString()}</span>
+        </div>
         <button
           onClick={() => setShowModal(true)}
           className="flex items-center gap-2 bg-[#233f92] text-white px-4 py-2 rounded hover:bg-[#1a2e6e]"
@@ -91,7 +95,6 @@ const Add = () => {
               <th className="p-3">Address</th>
               <th className="p-3">Visit Reason</th>
               <th className="p-3">SMS Status</th>
-              <th className="p-3">Added On</th>
             </tr>
           </thead>
           <tbody>
@@ -109,13 +112,21 @@ const Add = () => {
                   <td className="p-3">{p.gender}</td>
                   <td className="p-3">{p.address}</td>
                   <td className="p-3">{p.reason}</td>
-                  <td className="p-3 flex items-center gap-2">
-                    <FaSms className="text-blue-500" /> {p.smsStatus || 'Pending'}
+                  <td className="p-3">
+                    <div
+                     className={`inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full ${
+                      p.smsStatus === 'sent'
+                      ? 'bg-green-100 text-green-700'
+                      : p.smsStatus === 'failed'
+                      ? 'bg-red-100 text-red-700'
+                      : 'bg-yellow-100 text-yellow-700'
+                    }`}
+                  >
+                    <FaSms className="text-sm" />
+                    {p.smsStatus ? p.smsStatus.charAt(0).toUpperCase() + p.smsStatus.slice(1) : 'Pending'}
+                  </div>
                   </td>
-                  <td className="p-3 flex items-center gap-2">
-                    <FaCalendarAlt className="text-gray-400" />{' '}
-                    {new Date(p.createdAt).toLocaleDateString()}
-                  </td>
+
                 </tr>
               ))
             )}
