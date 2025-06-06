@@ -61,7 +61,7 @@ const Sidebar = () => {
   return (
     <>
       {/* Mobile Toggle Button */}
-      <div className="md:hidden p-4 bg-white shadow flex justify-between items-center font-poppins">
+      <div className="md:hidden p-4 bg-white flex justify-between items-center font-poppins">
         <button onClick={toggleSidebar} className="text-2xl text-[#233f92]">
           {isOpen ? <FaTimes /> : <FaBars />}
         </button>
@@ -71,7 +71,7 @@ const Sidebar = () => {
       <div
         className={`${
           isOpen ? 'block' : 'hidden'
-        } md:block fixed md:relative top-0 left-0 h-screen w-64 font-poppins bg-white shadow-lg border-r border-gray-200 z-50`}
+        } md:block fixed md:relative top-0 left-0 h-screen w-64 font-poppins bg-white border-r border-gray-200 z-50`}
       >
         <div className="p-5 flex flex-col h-full">
 
