@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { FaPlus, FaSms, FaCalendarAlt } from 'react-icons/fa';
+import usePatientStore from '../store/patientStore';
+
 
 const Add = () => {
-  const [patients, setPatients] = useState([]);
+  const {
+  patients,
+  fetchPatients,
+  addPatient,
+  loading,
+  error,
+} = usePatientStore();
+  // const [patients, setPatients] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [patientsPerPage] = useState(5);
@@ -14,20 +23,13 @@ const Add = () => {
     reason: '',
   });
 
-  const fetchPatients = async () => {
-    try {
-      const today = new Date().toISOString().split('T')[0];
-      const res = await fetch(`https://ufeedback-backend.onrender.com/patients?date=${today}`);
-      const data = await res.json();
-      setPatients(data);
-    } catch (err) {
-      console.error('Failed to fetch patients:', err);
-    }
-  };
+  
 
   useEffect(() => {
+  if (patients.length === 0) {
     fetchPatients();
-  }, []);
+  }
+}, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -35,30 +37,32 @@ const Add = () => {
   };
 
   const handleAddPatient = async () => {
-    try {
-      const res = await fetch('https://ufeedback-backend.onrender.com/patients', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+  try {
+    const res = await fetch('https://ufeedback-backend.onrender.com/patients', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
 
-      if (!res.ok) {
-        const errData = await res.json();
-        alert(errData.message || 'Failed to add patient');
-        return;
-      }
-
-      const newPatient = await res.json();
-      setPatients((prev) => [newPatient, ...prev]);
-      setFormData({ name: '', phone: '', gender: '', address: '', reason: '' });
-      setShowModal(false);
-    } catch (error) {
-      console.error('Error adding patient:', error);
-      alert('Server error');
+    if (!res.ok) {
+      const errData = await res.json();
+      alert(errData.message || 'Failed to add patient');
+      return;
     }
-  };
+    
+
+    const newPatient = await res.json();
+    addPatient(newPatient); // Add to global Zustand store
+    setFormData({ name: '', phone: '', gender: '', address: '', reason: '' });
+    setShowModal(false);
+  } catch (error) {
+    console.error('Error adding patient:', error);
+    alert('Server error');
+  }
+};
+
 
   // Pagination
   const indexOfLast = currentPage * patientsPerPage;
