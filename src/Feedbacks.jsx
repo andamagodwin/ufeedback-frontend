@@ -32,7 +32,7 @@ const Feedbacks = () => {
     console.log({id,ratings,comment})
 
     try {
-      const res = await fetch('http://localhost:3000/feedback', {
+      const res = await fetch('https://ufeedback-backend.onrender.com/feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -10,7 +10,7 @@ const Home = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const res = await fetch('http://localhost:3000/dashboard/stats');
+        const res = await fetch('https://ufeedback-backend.onrender.com/dashboard/stats');
         const data = await res.json();
         setStats(data);
       } catch (err) {
