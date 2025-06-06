@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { FaPlus, FaSms, FaCalendarAlt } from 'react-icons/fa';
 
 const Add = () => {
   const [patients, setPatients] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [patientsPerPage] = useState(5);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -13,7 +16,8 @@ const Add = () => {
 
   const fetchPatients = async () => {
     try {
-      const res = await fetch('https://ufeedback-backend.onrender.com/patients');
+      const today = new Date().toISOString().split('T')[0];
+      const res = await fetch(`https://ufeedback-backend.onrender.com/patients?date=${today}`);
       const data = await res.json();
       setPatients(data);
     } catch (err) {
@@ -48,14 +52,7 @@ const Add = () => {
 
       const newPatient = await res.json();
       setPatients((prev) => [newPatient, ...prev]);
-
-      setFormData({
-        name: '',
-        phone: '',
-        gender: '',
-        address: '',
-        reason: '',
-      });
+      setFormData({ name: '', phone: '', gender: '', address: '', reason: '' });
       setShowModal(false);
     } catch (error) {
       console.error('Error adding patient:', error);
@@ -63,45 +60,62 @@ const Add = () => {
     }
   };
 
+  // Pagination
+  const indexOfLast = currentPage * patientsPerPage;
+  const indexOfFirst = indexOfLast - patientsPerPage;
+  const currentPatients = patients.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(patients.length / patientsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Patient List</h1>
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold text-[#233f92]">Today's Patients</h1>
         <button
           onClick={() => setShowModal(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="flex items-center gap-2 bg-[#233f92] text-white px-4 py-2 rounded hover:bg-[#1a2e6e]"
         >
-          Add Patient
+          <FaPlus /> Add Patient
         </button>
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white shadow rounded-md">
-          <thead className="bg-gray-100 text-left">
+      <div className="overflow-x-auto bg-white shadow rounded-lg">
+        <table className="min-w-full text-sm text-left">
+          <thead className="bg-[#f4f7fc] text-gray-600 uppercase text-xs">
             <tr>
               <th className="p-3">Name</th>
               <th className="p-3">Phone</th>
               <th className="p-3">Gender</th>
               <th className="p-3">Address</th>
               <th className="p-3">Visit Reason</th>
+              <th className="p-3">SMS Status</th>
+              <th className="p-3">Added On</th>
             </tr>
           </thead>
           <tbody>
-            {patients.length === 0 ? (
+            {currentPatients.length === 0 ? (
               <tr>
-                <td className="p-3 text-gray-500" colSpan="5">
-                  No patients added yet.
+                <td colSpan="7" className="p-3 text-center text-gray-500">
+                  No patients added yet today.
                 </td>
               </tr>
             ) : (
-              patients.map((p, idx) => (
-                <tr key={p._id || idx} className="border-t">
-                  <td className="p-3">{p.name}</td>
+              currentPatients.map((p, idx) => (
+                <tr key={p._id || idx} className="border-t hover:bg-gray-50">
+                  <td className="p-3 font-medium">{p.name}</td>
                   <td className="p-3">{p.phone}</td>
                   <td className="p-3">{p.gender}</td>
                   <td className="p-3">{p.address}</td>
                   <td className="p-3">{p.reason}</td>
+                  <td className="p-3 flex items-center gap-2">
+                    <FaSms className="text-blue-500" /> {p.smsStatus || 'Pending'}
+                  </td>
+                  <td className="p-3 flex items-center gap-2">
+                    <FaCalendarAlt className="text-gray-400" />{' '}
+                    {new Date(p.createdAt).toLocaleDateString()}
+                  </td>
                 </tr>
               ))
             )}
@@ -109,11 +123,30 @@ const Add = () => {
         </table>
       </div>
 
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="mt-4 flex justify-center gap-2">
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i + 1}
+              onClick={() => paginate(i + 1)}
+              className={`px-3 py-1 rounded ${
+                currentPage === i + 1
+                  ? 'bg-[#233f92] text-white'
+                  : 'bg-gray-200 text-gray-800'
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded shadow-lg w-full max-w-md">
-            <h2 className="text-xl font-semibold mb-4">Add Patient</h2>
+            <h2 className="text-xl font-semibold mb-4 text-[#233f92]">Add Patient</h2>
             <div className="space-y-4">
               <input
                 name="name"
@@ -164,7 +197,7 @@ const Add = () => {
               </button>
               <button
                 onClick={handleAddPatient}
-                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                className="bg-[#233f92] text-white px-4 py-2 rounded hover:bg-[#1a2e6e]"
               >
                 Save
               </button>

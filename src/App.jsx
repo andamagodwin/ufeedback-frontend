@@ -15,7 +15,7 @@ function App() {
     return null; // Prevent rendering the rest of the app
   }
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex h-screen flex-col font-poppins bg-gray-50">
       {/* Top Navigation Bar */}
       <Nav />
 

@@ -1,42 +1,116 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router';
 import useAuthStore from '../store/authstore';
+import {
+  FaTachometerAlt,
+  FaCommentDots,
+  FaUserPlus,
+  FaChartBar,
+  FaUsersCog,
+  FaCog,
+  FaSignOutAlt,
+  FaBars,
+  FaTimes,
+} from 'react-icons/fa';
 
 const Sidebar = () => {
-  const user = useAuthStore((state) => state.user);
+  const { user, logout } = useAuthStore();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleSidebar = () => setIsOpen(!isOpen);
 
   const links = [
-    { label: 'Dashboard', to: '/', roles: ['admin', 'receptionist'] },
-    { label: 'Feedbacks', to: '/feedback', roles: ['admin', 'receptionist'] },
-    { label: 'Add', to: '/add', roles: ['receptionist'] },
-    { label: 'Analytics', to: '/analytics', roles: ['admin'] },
-    { label: 'Users', to: '/users', roles: ['admin'] },
-    { label: 'Settings', to: '/settings', roles: ['admin'] },
+    {
+      label: 'Dashboard',
+      to: '/',
+      icon: <FaTachometerAlt />,
+      roles: ['admin', 'receptionist'],
+    },
+    {
+      label: 'Feedbacks',
+      to: '/feedback',
+      icon: <FaCommentDots />,
+      roles: ['admin', 'receptionist'],
+    },
+    {
+      label: 'Add',
+      to: '/add',
+      icon: <FaUserPlus />,
+      roles: ['receptionist'],
+    },
+    {
+      label: 'Analytics',
+      to: '/analytics',
+      icon: <FaChartBar />,
+      roles: ['admin', 'receptionist'],
+    },
+    {
+      label: 'Users',
+      to: '/users',
+      icon: <FaUsersCog />,
+      roles: ['admin'],
+    },
+    {
+      label: 'Settings',
+      to: '/settings',
+      icon: <FaCog />,
+      roles: ['admin'],
+    },
   ];
 
   return (
-    <div className="w-64 h-screen bg-gray-100 shadow-md px-4 py-6">
+    <>
+      {/* Mobile Toggle Button */}
+      <div className="md:hidden p-4 bg-white shadow flex justify-between items-center font-poppins">
+        <button onClick={toggleSidebar} className="text-2xl text-[#233f92]">
+          {isOpen ? <FaTimes /> : <FaBars />}
+        </button>
+      </div>
 
-      <nav className="space-y-2">
-        {links
-          .filter((link) => link.roles.includes(user?.role))
-          .map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              className={({ isActive }) =>
-                `block px-4 py-2 rounded text-sm font-medium ${
-                  isActive
-                    ? 'bg-blue-600 text-white shadow'
-                    : 'text-gray-700 hover:bg-blue-100'
-                }`
-              }
-            >
-              {link.label}
-            </NavLink>
-          ))}
-      </nav>
-    </div>
+      {/* Sidebar */}
+      <div
+        className={`${
+          isOpen ? 'block' : 'hidden'
+        } md:block fixed md:relative top-0 left-0 h-screen w-64 font-poppins bg-white shadow-lg border-r border-gray-200 z-50`}
+      >
+        <div className="p-5 flex flex-col h-full">
+
+          <nav className="flex-1 space-y-1">
+            {links
+              .filter((link) => link.roles.includes(user?.role))
+              .map((link) => (
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  onClick={() => setIsOpen(false)}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-4 py-2 rounded-lg transition-all ${
+                      isActive
+                        ? 'bg-[#233f92] text-white shadow'
+                        : 'text-gray-700 hover:bg-[#e5f0ff]'
+                    }`
+                  }
+                >
+                  <span className="text-lg">{link.icon}</span>
+                  <span className="text-sm font-medium">{link.label}</span>
+                </NavLink>
+              ))}
+          </nav>
+
+          {/* Logout Button */}
+          <button
+            onClick={() => {
+              logout();
+              setIsOpen(false);
+            }}
+            className="flex items-center gap-3 px-4 py-2 mt-6 text-red-600 hover:bg-red-100 rounded-lg transition-all"
+          >
+            <FaSignOutAlt className="text-lg" />
+            <span className="text-sm font-medium">Logout</span>
+          </button>
+        </div>
+      </div>
+    </>
   );
 };
 
