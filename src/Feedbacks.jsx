@@ -42,9 +42,14 @@ const Feedbacks = () => {
         }),
       });
 
-      if (res.ok) setSubmitted(true);
+      if (res.ok) {
+        setSubmitted(true)
+        setRatings({});
+        setComment('');
+      }
       else alert('Failed to submit feedback.');
     } catch (err) {
+      console.error('Error submitting feedback:', err);
       alert('Network error.');
     }
   };
