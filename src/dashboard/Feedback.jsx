@@ -1,48 +1,52 @@
 import React, { useEffect, useState } from 'react';
 import { saveAs } from 'file-saver';
 import Papa from 'papaparse';
+import useFeedbackStore from '../store/feedbackStore';
+import { io } from "socket.io-client";
 
 const Feedback = () => {
-  const [feedbacks, setFeedbacks] = useState([]);
+  const { feedbacks, loading, error, fetched, fetchFeedbacks } = useFeedbackStore();
   const [filtered, setFiltered] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
   useEffect(() => {
-    const fetchFeedbacks = async () => {
-      try {
-        const res = await fetch('https://ufeedback-backend.onrender.com/feedback');
-        if (!res.ok) throw new Error('Failed to fetch feedbacks');
-        const data = await res.json();
-        setFeedbacks(data);
-        setFiltered(data);
-      } catch (err) {
-        setError(err.message || 'Something went wrong.');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchFeedbacks();
-  }, []);
+    if (!fetched) fetchFeedbacks();
+  }, [fetched, fetchFeedbacks]);
 
-  // Filter logic
+
+  useEffect(() => {
+  const socket = io("https://ufeedback-backend.onrender.com"); // or localhost for local dev
+
+  socket.on("new-feedback", (newFeedback) => {
+    // Update feedbacks in the store and let useEffect recalculate filtering
+    useFeedbackStore.setState((state) => ({
+      feedbacks: [newFeedback, ...state.feedbacks],
+    }));
+  });
+
+  return () => {
+    socket.disconnect(); // Clean up socket
+  };
+}, []);
+
+
+
+
+
+
   useEffect(() => {
     const lowerSearch = searchTerm.toLowerCase();
     const filteredData = feedbacks.filter((fb) => {
       const name = fb.patientId?.name || '';
       const comment = fb.comment || '';
       const created = new Date(fb.createdAt);
-
       const matchesSearch =
         name.toLowerCase().includes(lowerSearch) || comment.toLowerCase().includes(lowerSearch);
-
       const withinDate =
         (!startDate || created >= new Date(startDate)) &&
         (!endDate || created <= new Date(endDate));
-
       return matchesSearch && withinDate;
     });
     setFiltered(filteredData);
@@ -63,7 +67,6 @@ const Feedback = () => {
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-
       {/* Filters */}
       <div className="flex flex-col md:flex-row gap-4 mb-6 items-center justify-between">
         <input
@@ -101,9 +104,7 @@ const Feedback = () => {
       ) : error ? (
         <div className="text-center text-red-500">{error}</div>
       ) : filtered.length === 0 ? (
-        <div className="text-center text-gray-500">
-          No feedbacks found
-        </div>
+        <div className="text-center text-gray-500">No feedbacks found</div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((fb) => (
@@ -128,12 +129,8 @@ const Feedback = () => {
                   </div>
                 ))}
               </div>
-              <p className="text-gray-700 text-sm italic">
-                "{fb.comment || 'No comment'}"
-              </p>
-              <p className="text-gray-400 text-xs mt-2">
-                {new Date(fb.createdAt).toLocaleString()}
-              </p>
+              <p className="text-gray-700 text-sm italic">"{fb.comment || 'No comment'}"</p>
+              <p className="text-gray-400 text-xs mt-2">{new Date(fb.createdAt).toLocaleString()}</p>
             </div>
           ))}
         </div>
