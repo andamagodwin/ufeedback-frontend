@@ -1,26 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import useAuthStore from '../store/authstore';
+import useDashboardStore from '../store/dashboardStore';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 const Home = () => {
   const { user } = useAuthStore();
-  const [stats, setStats] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { stats, loading, error, fetchStats, fetched } = useDashboardStore();
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const res = await fetch('https://ufeedback-backend.onrender.com/dashboard/stats');
-        const data = await res.json();
-        setStats(data);
-      } catch (err) {
-        console.error('Failed to load stats', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchStats();
-  }, []);
+useEffect(() => {
+  if (!fetched) fetchStats();
+}, [fetched, fetchStats]);
+
+
+
+
+
 
   const categoryChartData =
     stats?.categoryStats &&
@@ -37,7 +31,9 @@ const Home = () => {
 
       {loading ? (
         <div className="text-gray-600">Loading dashboard...</div>
-      ) : stats ? (
+      ) : error ? (
+        <div className="text-red-500">{error}</div>
+      ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             <StatCard title="Total Feedbacks" value={stats.totalFeedbacks} icon="💬" />
@@ -67,8 +63,6 @@ const Home = () => {
             </div>
           )}
         </>
-      ) : (
-        <div className="text-red-500">Failed to load stats</div>
       )}
     </div>
   );
