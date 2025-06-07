@@ -11,6 +11,7 @@ import Home from './dashboard/Home.jsx'
 import Login from './auth/Login.jsx'
 import Feedback from './dashboard/Feedback.jsx'
 import Analytics from './dashboard/Analytics.jsx'
+import Reports from "./dashboard/Reports.jsx";
 import Feedbacks from './Feedbacks.jsx'
 import Add from './dashboard/Add.jsx'
 
@@ -38,7 +39,11 @@ const router = createBrowserRouter([
       {
         path: '/analytics',
         element: <Analytics />
-      }
+      },
+      {
+        path: '/reports',
+        element: <Reports />
+      },
     ]
   },
   {

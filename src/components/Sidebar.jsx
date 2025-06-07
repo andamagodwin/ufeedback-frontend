@@ -13,6 +13,8 @@ import {
   FaTimes,
 } from 'react-icons/fa';
 
+import { CgNotes } from "react-icons/cg";
+
 const Sidebar = () => {
   const { user, logout } = useAuthStore();
   const [isOpen, setIsOpen] = useState(false);
@@ -42,6 +44,12 @@ const Sidebar = () => {
       label: 'Analytics',
       to: '/analytics',
       icon: <FaChartBar />,
+      roles: ['admin', 'receptionist'],
+    },
+    {
+      label: 'Reports',
+      to: '/reports',
+      icon: <CgNotes />,
       roles: ['admin', 'receptionist'],
     },
     {
