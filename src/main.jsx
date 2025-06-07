@@ -10,6 +10,7 @@ import App from './App.jsx'
 import Home from './dashboard/Home.jsx'
 import Login from './auth/Login.jsx'
 import Feedback from './dashboard/Feedback.jsx'
+import Analytics from './dashboard/Analytics.jsx'
 import Feedbacks from './Feedbacks.jsx'
 import Add from './dashboard/Add.jsx'
 
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: '/add',
         element: <Add />
+      },
+      {
+        path: '/analytics',
+        element: <Analytics />
       }
     ]
   },
