@@ -32,10 +32,10 @@ const Sidebar = () => {
       label: 'Feedbacks',
       to: '/feedback',
       icon: <FaCommentDots />,
-      roles: ['admin', 'receptionist'],
+      roles: ['admin'],
     },
     {
-      label: 'Add',
+      label: 'Add Patient',
       to: '/add',
       icon: <FaUserPlus />,
       roles: ['receptionist'],
@@ -44,13 +44,13 @@ const Sidebar = () => {
       label: 'Analytics',
       to: '/analytics',
       icon: <FaChartBar />,
-      roles: ['admin', 'receptionist'],
+      roles: ['admin'],
     },
     {
       label: 'Reports',
       to: '/reports',
       icon: <CgNotes />,
-      roles: ['admin', 'receptionist'],
+      roles: ['admin'],
     },
     {
       label: 'Users',

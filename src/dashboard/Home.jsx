@@ -2,14 +2,15 @@ import React, { useEffect } from 'react';
 import useAuthStore from '../store/authstore';
 import useDashboardStore from '../store/dashboardStore';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { StatCard } from '../components/StatCard';
 
 const Home = () => {
   const { user } = useAuthStore();
   const { stats, loading, error, fetchStats, fetched } = useDashboardStore();
 
-useEffect(() => {
-  if (!fetched) fetchStats();
-}, [fetched, fetchStats]);
+  useEffect(() => {
+    if (!fetched) fetchStats();
+  }, [fetched, fetchStats]);
 
 
 
@@ -24,7 +25,7 @@ useEffect(() => {
     }));
 
   return (
-    <div className="p-6 bg-gradient-to-br from-[#e6f9f5] to-[#e5e9f8] min-h-screen">
+    <div className="p-6 bg-gray-50 min-h-screen">
       <h1 className="text-3xl font-semibold mb-6 text-[#233f92]">
         Welcome, {user?.email || 'User'} 👋
       </h1>
@@ -68,14 +69,14 @@ useEffect(() => {
   );
 };
 
-const StatCard = ({ title, value, icon }) => (
-  <div className="bg-white p-6 rounded-2xl shadow flex items-center space-x-4">
-    <div className="text-3xl">{icon}</div>
-    <div>
-      <h2 className="text-lg font-semibold text-gray-700">{title}</h2>
-      <p className="text-2xl font-bold text-[#233f92]">{value}</p>
-    </div>
-  </div>
-);
+// const StatCard = ({ title, value, icon }) => (
+//   <div className="bg-white p-6 rounded-2xl flex items-center space-x-4">
+//     <div className="text-3xl">{icon}</div>
+//     <div>
+//       <h2 className="text-lg font-semibold text-gray-700">{title}</h2>
+//       <p className="text-2xl font-bold text-[#233f92]">{value}</p>
+//     </div>
+//   </div>
+// );
 
 export default Home;

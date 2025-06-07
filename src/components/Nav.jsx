@@ -5,12 +5,12 @@ const Nav = () => {
 
   return (
     <nav className="bg-white text-white shadow-md font-poppins border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div className="max-w-7xl mx-auto py-1 flex justify-between items-center">
         {/* Brand */}
         <div className="flex items-center space-x-2">
           <img src="/logo-bg.png" alt="vfh Logo" className="w-16" />
           {user?.role && (
-            <span className="bg-brand-blue text-white px-2 py-1 text-xs rounded-md uppercase tracking-wide shadow">
+            <span className="bg-brand-blue text-white px-2 py-1 text-xs rounded-md tracking-wide shadow">
               {user.role}
             </span>
           )}
@@ -31,7 +31,7 @@ const Nav = () => {
           {/* Logout button */}
           <button
             onClick={logout}
-            className="bg-brand-blue text-white font-semibold px-4 py-1.5 rounded-full shadow hover:bg-brand-green hover:text-white transition-all flex items-center gap-2"
+            className="flex items-center justify-center gap-2 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
           >
           {/* Optional: Add a logout icon */}
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
