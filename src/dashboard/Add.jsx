@@ -103,7 +103,8 @@ const Add = () => {
             {currentPatients.length === 0 ? (
               <tr>
                 <td colSpan="7" className="p-3 text-center text-gray-500">
-                  No patients added yet today.
+                  <img src="/add-patient.svg" alt="No Patients" className="w-[300px] mx-auto mb-2" />
+                  No patients added today.
                 </td>
               </tr>
             ) : (

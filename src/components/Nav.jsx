@@ -10,7 +10,7 @@ const Nav = () => {
         <div className="flex items-center space-x-2">
           <img src="/logo-bg.png" alt="vfh Logo" className="w-16" />
           {user?.role && (
-            <span className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-xs px-1 py-1 text-center me-2 mb-2">
+            <span className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-full text-xs px-2 py-1 text-center me-2 mb-2">
               {user.role}
             </span>
           )}
