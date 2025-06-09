@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router';
 import useAuthStore from '../store/authstore';
+import {LayoutDashboard} from 'lucide-react'
 import {
   FaTachometerAlt,
   FaCommentDots,
@@ -25,7 +26,7 @@ const Sidebar = () => {
     {
       label: 'Dashboard',
       to: '/',
-      icon: <FaTachometerAlt />,
+      icon: <LayoutDashboard />,
       roles: ['admin', 'receptionist'],
     },
     {

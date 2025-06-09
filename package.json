@@ -13,6 +13,7 @@
     "@fontsource/poppins": "^5.2.6",
     "date-fns": "^4.1.0",
     "file-saver": "^2.0.5",
+    "lucide-react": "^0.513.0",
     "papaparse": "^5.5.3",
     "react": "^19.1.0",
     "react-csv": "^2.2.2",
