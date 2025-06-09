@@ -120,7 +120,7 @@ const Login = () => {
         <div>
           <button
             onClick={handleLogin}
-            className="w-full bg-brand-blue text-white py-2 cursor-pointer rounded hover:bg-blue-800 disabled:opacity-50 flex items-center justify-center"
+            className="w-full bg-gradient-to-r from-teal-500 to-blue-600 hover:from-teal-600 hover:to-blue-700 text-white text-white py-2 cursor-pointer rounded hover:bg-blue-800 disabled:opacity-50 flex items-center justify-center"
             disabled={loading}
           >
             {loading ? <><Spinner /> Logging in...</> : 'Login'}
