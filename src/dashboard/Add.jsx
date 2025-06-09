@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaPlus, FaSms, FaCalendarAlt, FaEdit } from 'react-icons/fa';
 import usePatientStore from '../store/patientStore';
-import { Save, X } from 'lucide-react'
+import { Save, X,UserRoundPen } from 'lucide-react'
 
 const Add = () => {
   const {
@@ -204,10 +204,10 @@ const Add = () => {
                   </td>
                   <td className="p-3">
                     <button
-                      className="flex items-center gap-1 px-3 py-1 bg-brand-blue text-white rounded hover:bg-brand-green transition text-xs"
+                      className="flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-teal-500 to-blue-600 hover:from-teal-600 hover:to-blue-700 text-white shadow-lg text-xs rounded-lg"
                       onClick={() => handleEditPatient(p)}
                     >
-                      <FaEdit className="text-sm" /> Edit
+                      <UserRoundPen className="text-sm" /> Update
                     </button>
                   </td>
                 </tr>
